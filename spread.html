@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+	"use strict;"
+	/*spread연산자는 이터러블 오브젝트의 엘리먼트를 하나씩 분리하여 전개함. 전개한 결과를 변수에 할당하거나 호출하는 함수의 파라미터 값으로 사용할 수 있습니다.*/
+	/*...과 같이 점 3개를 연속해서 작성하고 이어서 이터러블 오브젝트를 작성함.*/
+
+	//배열
+	function step01() {
+		let one = [11, 12];
+		let two = [21, 22];
+		/*one 배열의 엘리먼트를 각각 분리하여 11과 12로 전개하여 ...one 위치에 설정*/
+		let spreadObj = [51, ...one, 52, ...two];
+
+		console.log(spreadObj);
+		/*one과 two 배열의 엘리먼트를 분리하여 전개했으므로 length 값은 6입니다. one과 two배열의 엘리먼트를 전개하지 않으면 length값은 4입니다.*/
+		console.log(spreadObj.length);
+		
+	}
+
+	//문자열
+	function step02() {
+		let spreadObj = [..."music"];
+		/*spread연산자로 작성한 music이 전개대상, String오브젝트가 이터러블 오브젝트이므로 문자열을 사용 할 수 있습니다.*/
+		console.log(spreadObj);
+		/*"m", "u", "s", "i", "c"*/
+	}
+
+	//함수 파라미터
+	function step03() {
+		/*호출하는 함수의 파라미터 값을 spread 연산자로 작성하면, 함수를 호출하기 전에 파라미터 값을 분리, 전개합니다. 호출받은 함수의 파라미터에 이름을 작성하면 전개한 각 엘리먼트 값이 파라미터 이름에 설정됩니다.*/
+
+		const values = [10, 20, 30];
+		/*get() 파라미터에 spread 연산자로 values를 작성했습니다. get() 함수를 호출하기 전에 [10, 20, 30]을 get(10, 20, 30) 형태로 전개합니다.*/
+		get(...values);
+		
+		function get(one, two, three) {
+			console.log(one + two + three);
+		};
+	}
+
+	//rest 파라미터
+	function step04() {
+		/*호출 받는 함수의 파라미터에 function(...rest)와 같이 spread 연산자로 파라미터를 작성한 형태를 rest파라미터라고 합니다.*/
+		/*호출하는 함수의 파라미터에 3개의 파라미터 값을 작성하고 호출받는 함수의 파라미터에 파라미터 이름을 하나만 작성하면 2개의 파라미터 값이 설정되지 않습니다. 이때 rest파라미터를 작성하면 2개의 파라미터 값이 rest 파라미터에 배열 엘리먼트로 설정됩니다.*/
+		
+		let get = (one, two) => {
+			/*호출받는 get()함수가 화살표함수이므로 호출한 함수에서 보낸 파라미터가 arguments에 설정되지 않습니다. 따라서 [1, 2, 3]에서 2와 3을 받지 못하게 됩니다. 이때 rest 파라미터를 작성하면 2와 3을 받을 수 있습니다.*/
+			console.log(one, two);
+		}
+		get(...[1, 2, 3]);
+
+		let get02 = (...rest) => {
+			console.log(rest);
+			console.log(Array.isArray(rest));
+		}
+		get02(...[1, 2, 3]);
+
+
+		/*파라미터 one에 1이 설정되고 남은 2와 3은 rest에 [2, 3]형태로 설정됨*/
+		let get03 = (one, ...rest) => {
+			console.log(one);
+			console.log(rest);
+		}
+		get03(...[1, 2, 3]);
+	}
+
+	//Array-like
+	function step05(){
+		/*{key:value} 형태의 Object 오브젝트 특징을 유지하면서 배열의 특징을 가미한 것이 Array-like입니다. {key:value} 형태에서 key에 0부터 1씩 증가하면서 값을 부여합니다. 배열의 인덱스 값을 프로퍼티 key값으로 사용하는 것과 같습니다.*/
+		/*values["0"]형태로 프로퍼티를 읽을 수 있습니다.*/
+
+		/*프로퍼티 키 값을 0부터 1씩 증가하면서 부여하였으며 length를 프로퍼티 키로 하여 3을 작성하였습니다.*/
+		let values = {0: "zero", 1: "one", 2: "two", length: 3};
+
+		/*for-in문은 Object오브젝트를 전개할 때 사용합니다. for-in문으로 values오브젝트를 전개하면 length프로퍼티도 전개되므로 적절하지 않습니다. for-in문으로 Array-like를 전개하면 length프로퍼티를 제외시키는 처리를 해야합니다.*/
+		for (var key in values) {
+			console.log(key, ':', values[key]);
+		};
+
+		/*for문은 배열을 전개할 때 주로 사용합니다. for()문으로 values 오브젝트를 전개하면 length프로퍼티가 전개되지 않습니다. for문에서 Array-like를 마치 배열처럼 사용할 수 있습니다. 형태는 Object오브젝트이지만 배열처럼 사용 할 수 있습니다.*/
+		for (var k = 0; k < values.length; k++) {
+			console.log(values[k]);
+		};
+	}
+
+	function step06() {
+		/*Array-like의 프로퍼티 키 값은 0부터 1씩 증가하면서 순차적으로 작성해야 합니다.*/
+
+		/*values오브젝트에 length 프로퍼티가 작성되어 있으므로 Array-like로 볼 수 있습니다.*/
+
+		/*프로퍼티 키 값을 0부터 1씩 증가하면서 순차적으로 작성하고, length를 프로퍼티 키로 하여 전체 프로퍼티 수를 작성해야 Array-like입니다.*/
+
+		let values = {10: "ten", zoo: "동물원", 2: "two", length: 3};
+		for (var k = 0; k < values.length; k++) {
+			console.log(values[k]);
+		}
+	}
+
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+<script>
+	"use strict;"
+	//Iteration
+
+	//이터러블 프로토콜
+	/*오브젝트의 반복 처리 규약을 정의함. 빌트인 Stiring, Array, Map, Set, TypedArray, Argument오브젝트는 디폴트로 이터러블 프로토콜을 갖고 있음. DOM의 NodeList도 갖고 있음.*/
+
+	//Symbol.iterator의 존재여부 체크
+	function step01() {
+		/*오브젝트에 프로퍼티 존재 여부를 체크할때 arrayObj.propertyKey 또는 arrayObj[propertyKey] 형태로 작성하지만 Symbol은 arrayObj.Symbol.iterator형태로 작성할 수 없고 arrayObj[Symbol.iterator]와 같이 대괄호 안에 Symbol.iterator를 작성해야 함*/
+		/*빌트인 Array오브젝트에 Symbol.iterator가 설정되어 있음. arrayObj에 Symbol.iterator가 존재하므로 값이 반환됨*/
+		let arrayObj = [];
+		let result = arrayObj[Symbol.iterator];
+		console.log(result);
+
+		/*Object 오브젝트에서 Symbol.iterator의 존재 여부를 체크하는 코드*/
+		let objectObj = {};
+		let result02 = objectObj[Symbol.iterator];
+		console.log(result02);
+	}
+
+	//이터레이터 프로토콜
+	/*오브젝트의 값을 차례대로 처리할 수 있는 방법을 제공, next()메서드로 구현*/
+	/*자바스크립트에서 {key:value} 형태의 Object 오브젝트는 작성한 순서대로 열거되는것을 보장하지 않음. ES6에서 Object 오브젝트에 추가한 순서대로 key, value가 열거되는 Map 오브젝트를 제공함.*/
+
+	function step03() {
+		/*[1, 2]로 Array 오브젝트를 생성하여 arrayObj에 할당합니다.*/
+		let arrayObj = [1, 2];
+		/*arrayObj의 Symbol.iterator()를 호출하면 이터레이터 오브젝트를 생성하며 반환합니다. 이터레이션을 하려면 먼저 이터레이터 오브젝트를 생성해야 합니다.*/
+		let iteratorObj = arrayObj[Symbol.iterator]();
+		/*[Symbol.iterator]()로 반환받은 iteratorObj 타입은 object입니다. object라는 것은 오브젝트에 next()메서드가 포함되어 있다는것을 의미합니다. 따라서 iteratorObj.next()형태로 호출할 수 있습니다.*/
+		/*[1, 2]로 생성한 Array오브젝트는 이터러블 오브젝트이고 [Symbol.iterator]()를 호출하여 반환받은 오브젝트는 이터레이터 오브젝트입니다.*/
+		console.log("1:", typeof iteratorObj);
+
+		/*{value:1, done:false} -> value:1은 [1, 2]의 1이고 done:false는 이터레이터가 종료되지 않은 것을 의미함*/
+		console.log("2:", iteratorObj.next());
+		console.log("3:", iteratorObj.next());
+
+		/*value:undefined는 이터레이터로 읽은 값이 없다는 것을 나타냄. done:true는 이터레이터가 종료된 것을 의미함*/
+		console.log("4:", iteratorObj.next());
+
+	}
+	step03();
+
+
+</script>
+</html>
