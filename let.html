@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<ul>
+		<li>1~10</li>
+		<li>11~20</li>
+		<li>21~30</li>
+	</ul>
+</body>
+<script>
+	"use strict";
+
+	//변수
+	function step01() {
+
+		/*값을 할당하지 않은 변수*/
+		let book; 
+
+		/*초깃값으로 축구를 할당*/
+		let sports = "축구";
+		
+		/*바로 위에 sports 변수값이 농구로 대체됨*/
+		sports = "농구";
+		
+		/*let 키워드로 sports를 선언했는데 다시 let 키워드로 변수를 선언하면 SyntaxError 발생*/
+		// let sports = "배구";
+
+		/*콤마로 구분하여 여러개의 let변수를 연속선언*/
+		let one = 1, two = 2, three;
+
+		/*콤마로 구분하여 키워드마다 let을 선언하면 SyntaxError 발생*/
+		// let four = 4, let five = 5;
+
+		/*콤마로 구분할때 let과 var 키워드를 같이 사용시 SyntaxError 발생*/
+		// let six = 6, var seven = 7;
+
+	}
+
+	//블록 스코프
+	function step02() {
+	
+		let sports = "축구";
+		//앞 sports에 축구를 할당했으므로 if문 성립
+		if (sports){
+			let sports = "농구";
+			console.log("블록: ", sports);
+		}
+		console.log("글로벌: ", sports);
+	}
+	
+	//let과 this 키워드
+
+	// /*window 오브젝트에 글로벌 오브젝트로 존재*/
+	// var music = "음악";
+	// console.log(this.music);
+
+	// /*window 오브젝트에 let변수가 설정되지 않는다.*/
+	// let sports = "축구";
+	// console.log(this.sports);
+
+	//함수 스코프 01
+	function step03() {
+		let sports = "축구", music = "재즈";
+
+		/*get()함수안에 let변수로 music을 선언하고 값을 할당하면 스코프속 값이 유지됨*/
+		function get() {
+			let music = "클래식";
+			console.log(music);
+
+			/*var변수와 마찬가지로 우선 함수 안에서 sports 변수를 검색하고 없으면 밖으로 나가서 검색*/
+			console.log(sports);
+		}
+		get();
+	}
+
+	//함수 스코프 02
+	// var sports = "축구";
+	// let music = "재즈";
+
+	// function get() {
+	// 	var sports = "농구";
+	// 	let music = "클래식";
+	// 	/*함수 안에 var sports변수가 있으며 값이 농구이므로 농구가 출력*/
+	// 	console.log("1:", sports);
+	// 	/*window.get()형태로 호출했으므로 this가 window오브젝트를 참조 함수 밖의 축구 출력*/
+	// 	console.log("2:", this.sports);
+	// 	/*this가 window오브젝트를 참조하므로 함수 밖의 music변수 사용하나 let변수이므로 this로 참조할 수 없음*/
+	// 	console.log("3:", this.music);
+	// };
+	// /*strict모드에서 오브젝트위치에 window를 작성하면 get()함수 안에서 this가 window오브젝트를 참조합니다.*/
+	// window.get();
+	// /*window오브젝트를 지정하지 않고 get() 형태로 호출 했을때 TypeError에러발생*/
+	// get();
+
+
+	//try catch
+	function step04() {
+		let sports = "축구";
+		/*try 블록안에서만 스코프를 가짐 catch 블록은 스코프를 갖지 않음*/
+		try {
+			let sports = "농구";
+			console.log(sports);
+		} catch (e) {};
+		console.log(sports);
+	}
+	
+	//switch case
+	function step05() {
+		var count = 1;
+		let sports = "축구";
+		switch (count) {
+			case 1: 
+			let sports = "농구";
+			console.log(sports);
+		};
+		console.log(sports);
+	}
+
+	//호이스팅
+	function step06() {
+		/*var 변수는 호이스팅 되지만 undefined*/
+		console.log(sports);
+		var sports = "스포츠";
+
+		/*let 변수는 호이스팅 안됨 ReferenceError*/
+		console.log(music);
+		let music = "음악";
+	}
+
+	//for() var
+	function step07() {
+		var nodes = document.querySelector("ul");
+		/*for문에 var 변수 값의 최종값 반환*/
+		for (var k = 0; k < nodes.children.length; k++){
+			var el = nodes.children[k];
+			el.onclick = function(event){
+				event.target.style.backgroundColor = "yellow";
+				event.target.classList.toggle("on");
+				console.log(k);
+			}
+		}
+	}
+	//for() let
+	function step08() {
+		var nodes = document.querySelector("ul");
+		/*for문에 let 엘리먼트에 해당하는 k변수값*/
+		for (let k = 0; k < nodes.children.length; k++){
+			var el = nodes.children[k];
+			el.onclick = function(event){
+				event.target.style.backgroundColor = "yellow";
+				event.target.classList.toggle("on");
+				console.log(k);
+			}
+		}
+	}
+
+
+</script>
+</html>
