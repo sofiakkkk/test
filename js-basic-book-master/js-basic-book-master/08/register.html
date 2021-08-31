@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>DOM - Create & Add Node</title>
+	<link rel="stylesheet" href="css/nameList.css">
+</head>
+<body>
+	<div id="container">
+		<h1>참가 신청</h1>
+		<form action="">
+			<input type="text" id="userName" placeholder="이름" required>
+			<button onclick="newRegister();return false;">신청</button>
+		</form>
+		<hr>
+		<div id="nameList"></div>
+	</div>
+	
+	<script>
+		function newRegister() {
+			//텍스트 노드 만들기
+			var newP = document.createElement("p");
+			var userName = document.querySelector("#userName"); //텍스트 필드 내용 가져오기
+			var newText = document.createTextNode(userName.value); //새 텍스트 노드 만들기
+
+			//텍스트 노드를 요소 노드에 연결하기
+			newP.appendChild(newText); //newText 노드를 newP 노드의 자식 노드로 연결
+			var nameList = document.querySelector("#nameList");
+			nameList.insertBefore(newP, nameList.childNodes[0]);
+			userName.value = "";
+			userName.focus();
+
+			//취소 버튼
+			var newSpan = document.createElement("span");
+			newP.appendChild(newSpan);
+			var delBtn = document.createTextNode("X")
+			newSpan.appendChild(delBtn);
+			newSpan.setAttribute("class", "del")
+
+			var removeBtn = document.querySelectorAll(".del");
+			for(var i = 0; i < removeBtn.length; i++) {
+				removeBtn[i].addEventListener("click", function(){
+					if(this.parentNode.parentNode)//this는 span태그, this.parentNode.parentNode는 #itemList
+						this.parentNode.parentNode.removeChild(this.parentNode);//p삭제
+				})
+			}
+		}
+	</script>
+</body>
+</html>

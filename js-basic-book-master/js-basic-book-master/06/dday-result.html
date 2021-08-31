@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>D-Day for love</title>
+	<link href="css/d-day.css" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<div class="day1">
+			<h3>우리 만난지</h3>
+			<p id="accent" class="accent"><span style="font-size:0.6em; font-style:italic">며칠?</span></p>
+		</div>
+		<div class="bar">기념일 계산</div>
+		<div class="day2">
+			<ul>
+				<li class="item-title">100일</li>         
+				<li class="item-date" id="date100"></li>
+			</ul>
+			<ul>
+				<li class="item-title">200일</li>
+				<li class="item-date" id="date200"></li>
+			</ul>     
+			<ul>
+					<li class="item-title">1년</li>
+					<li class="item-date" id="date365"></li>
+				</ul>      
+			<ul>
+						<li class="item-title">500일</li>
+						<li class="item-date" id="date500"></li>
+					</ul>      									     
+		</div>
+	</div>
+
+		<script>
+			var now = new Date();        //오늘 날짜를 now객체에 저장
+			var firstDay = new Date("2020-10-04");  //만난 날짜를 firstDay객체에 저장
+			var toNow = now.getTime();              //now의 밀리초를 저장
+			var toFirst = firstDay.getTime();       //firstDay의 밀리초를 저장
+			var passedTime = toNow - toFirst;       //오늘날짜에서 만난 날짜를 빼서 지난 일을 저장
+			var passedDay = Math.round(passedTime/(24*60*60*1000));     //밀리초를 날짜 수로 계산해서 저장
+			document.querySelector('#accent').innerText = passedDay + "일";   //아이디accent를 찾아서 passedDay내용+일을 저장
+
+			calcDate(100);  // 100일 기념일을 계산해서 표시합니다.
+			calcDate(200);  // 200일 기념일을 계산해서 표시합니다.
+			calcDate(365);  // 1년 기념일을 계산해서 표시합니다.
+			calcDate(500);  // 500일 기념일을 계산해서 표시합니다.
+
+			function calcDate(days) {
+				var future = toFirst + days*(1000*60*60*24);  // 처음 만난 날에 밀리초로 바꾼 100일을 더합니다.
+				var someday = new Date(future);  // future 값을 사용해 Date 객체의 인스턴스를 만듭니다.
+				var year = someday.getFullYear( );  // ‘연도’를 가져와 year 변수에 저장합니다.
+				var month = someday.getMonth( ) + 1;  // ‘월’을 가져와 month 변수에 저장합니다.
+				var date = someday.getDate( );  // ‘일’을 가져와 date 변수에 저장합니다.
+				document.querySelector("#date"+days).innerText = year + "년 " + month + "월 " + date + "일";
+			}
+
+		</script>
+	</body>
+	</html>

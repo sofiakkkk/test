@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>To do list</title>
+	<link rel="stylesheet" href="css/input.css">
+	<link rel="stylesheet" href="css/list.css">
+</head>
+<body>
+	<div id="wrapper">
+		<h2>여행 준비물 점검 목록</h2>
+		<form onsubmit="return false;">
+			<input type="text" id="item" autofocus="true">
+			<button type="button" id="add" class="addBtn">추가</button>
+		</form>
+		<div id="itemList"></div>
+	</div>
+</body>
+<script>
+	"use strict;"
+	var itemList = [];
+
+	function clickEvent () {
+		var addBtn = document.querySelector("#add");
+		addBtn.addEventListener("click", addList)
+
+		var inputItem = document.querySelector("#item");
+		inputItem.addEventListener("keyup", function(e) {
+			if(e.key === "Enter") {
+				addList()
+			}
+		})
+	}
+	clickEvent()
+
+	function addList() {
+		var itemName = document.querySelector("#item").value;
+		if (itemName != null) {
+			itemList.push(itemName);
+			document.querySelector("#item").value = "";
+			document.querySelector("#item").focus();
+		}
+		showList();
+	}
+
+	function showList () {
+		var list = "<ul>";
+		
+		for (var i = 0; i < itemList.length; i++) {
+			list += "<li>" + itemList[i] + "<span class='close' id='" + i + "'>X</span></li>"
+		}
+		list += "</ul>"
+
+		document.querySelector("#itemList").innerHTML = list
+
+		var removeBtn = document.querySelectorAll(".close");
+		for (var i = 0; i < removeBtn.length; i++) {
+			removeBtn[i].addEventListener("click", removeItem);
+		}
+	}
+
+	function removeItem() {
+		var id = this.getAttribute("id");
+		itemList.splice(id, 1);
+		showList();
+	}
+
+
+	// var itemList = [];
+
+	// function itemEvent () {
+	// 	var addBtn = document.querySelector("#add");
+	// 	addBtn.addEventListener("click", addList);
+
+	// 	var inputItem = document.querySelector("#item");
+	// 	inputItem.addEventListener("keyup", function(e){
+	// 		if(e.key === 'Enter') {
+	// 			addList()
+	// 		}
+	// 	});
+	// }
+	// itemEvent();
+	
+	// function addList () {
+	// 	var item = document.querySelector("#item").value;
+	// 	if (item != null) {
+	// 		itemList.push(item);
+	// 		document.querySelector("#item").value = "";
+	// 		document.querySelector("#item").focus();
+	// 	}
+	// 	showList();
+	// }
+
+	// function showList () {
+	// 	var list = "<ul>";
+	// 	for (var i = 0; i < itemList.length; i++) {
+	// 		list += "<li>" + itemList[i] + "<span class='close' id=" + i + ">X</span></li>";
+	// 	}
+	// 	list += "</ul>";
+
+	// 	document.querySelector("#itemList").innerHTML = list;
+
+	// 	var remove = document.querySelectorAll(".close");
+
+	// 	for (var i = 0; i < remove.length; i++){
+	// 		remove[i].addEventListener("click", removeList);
+	// 	}
+	// }
+
+	// function removeList() {
+	// 	var id = this.getAttribute("id");
+	// 	itemList.splice(id, 1);
+	// 	showList();
+	// }
+</script>
+</html>
